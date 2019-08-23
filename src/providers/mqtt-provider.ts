@@ -1,12 +1,3 @@
-// import { Injectable } from '@angular/core';
-//
-// @Injectable()
-// export class MqttProvider {
-//   reasonToJoin() {
-//     return 'The Ionic Academy helps you to learn everything Ionic!';
-//   }
-// }
-
 import { Injectable } from "@angular/core";
 
 // mqtt

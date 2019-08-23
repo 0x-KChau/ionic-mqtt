@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ketherchau/ionic-mqtt.git"
+    "url": "git+https://github.com/walterchau/ionic-mqtt.git"
   },
-  "author": "Kether Chau",
+  "author": "Walter Chau",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ketherchau/ionic-mqtt/issues"
+    "url": "https://github.com/walterchau/ionic-mqtt/issues"
   },
-  "homepage": "https://github.com/ketherchau/ionic-mqtt#readme",
+  "homepage": "https://github.com/walterchau/ionic-mqtt#readme",
   "devDependencies": {
     "@angular/common": "5.0.3",
     "@angular/compiler": "5.0.3",

@@ -2,13 +2,17 @@
 
 ## Intro
 
-#### This is a simple ionic wrapper of paho-mqtt. For more detail of paho-mqtt, please refer to this [github page](https://github.com/eclipse/paho.mqtt.javascript#readme).
+#### This is a simple ionic wrapper of paho-mqtt. For more detail of paho-mqtt, please refer to this [paho-mqtt github page](https://github.com/eclipse/paho.mqtt.javascript#readme).
 
 ## Get Started
 
 ### Installation
 
-` npm install ionic-mqtt --save `
+```
+
+npm install ionic-mqtt --save
+
+```
 
 ### Example
 ```
