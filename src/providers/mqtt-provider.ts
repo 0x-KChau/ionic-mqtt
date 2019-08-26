@@ -8,11 +8,11 @@ declare const document: any;
 
 export class MQTTService {
 
-  protected client: any;
+  public client: any;
   private scripts: any = {};
   private ScriptStore: Scripts[] = [
     {
-      name: 'paho_mqtt', src: '../assets/scripts/paho-mqtt-min.js'
+      name: 'paho_mqtt', src: 'https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.1.0/paho-mqtt.min.js'
     }
   ];
 
@@ -66,13 +66,13 @@ export class MQTTService {
   // mqtt
   // Load the paho-mqtt mqtt and create a client instance
   public loadingMqtt(onConnectionLost, onMessageArrived, topic: string[], MQTT_CONFIG: {
-    domain: string,
-    port: number,
-    clientId: string,
+      host: string,
+      port: number,
+      clientId: string,
     }) {
     return this._load('paho_mqtt').then(data => {
       // set callback handlers
-      this.client = new Paho.MQTT.Client(MQTT_CONFIG.domain, Number(MQTT_CONFIG.port), MQTT_CONFIG.clientId);
+      this.client = new Paho.Client(MQTT_CONFIG.host, Number(MQTT_CONFIG.port), MQTT_CONFIG.clientId);
       this.client.onConnectionLost = onConnectionLost.bind(this);
       this.client.onMessageArrived = onMessageArrived.bind(this);
       // client connect and subscribe
@@ -83,10 +83,29 @@ export class MQTTService {
     });
   };
 
+  public publishMessage(topic: string, playload: string, qos: number, retained: boolean) {
+      // console.log('msg, topic', topic, playload);
+      var message = new Paho.Message(playload);
+      message.topic = topic;
+      qos ? message.qos = qos : undefined;
+      qos ? message.retained = retained : undefined;
+      this.client.publish(message);
+    };
+
+
+    public sendMessage(topic: string, playload: string, qos: number, retained: boolean) {
+      // console.log('msg, topic', topic, playload);
+      var message = new Paho.Message(playload);
+      message.topic = topic;
+      qos ? message.qos = qos : undefined;
+      qos ? message.retained = retained : undefined;
+      this.client.send(message);
+    };
+
   // called when the client connects
   private _onConnect(topic: string[]) {
     // Once a connection has been made, make a subscription and send a message.
-    console.log("onConnect");
+    // console.log("onConnect");
     // subscribe the topic
     topic.forEach((tp) => {
       this.client.subscribe(tp);

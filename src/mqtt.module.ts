@@ -1,6 +1,6 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 // import { MqttComponent } from './components/mqtt-component';
-import { MqttProvider } from './providers/mqtt-provider';
+import { MQTTService } from './providers/mqtt-provider';
 import { IonicModule } from 'ionic-angular';
 
 @NgModule({
@@ -22,7 +22,7 @@ export class IonicMqttModule {
     static forRoot(): ModuleWithProviders {
         return {
             ngModule: IonicMqttModule,
-            providers: [MqttProvider]
+            providers: [MQTTService]
         };
     }
 }

@@ -1,0 +1,7 @@
+{
+  "name": "ionic-mqtt",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular"
+}
