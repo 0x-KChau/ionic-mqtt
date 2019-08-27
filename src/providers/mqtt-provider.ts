@@ -65,25 +65,26 @@ export class MQTTService {
 
   // mqtt
   // Load the paho-mqtt mqtt and create a client instance
-  public loadingMqtt(onConnectionLost, onMessageArrived, topic: string[], MQTT_CONFIG: {
+  public loadingMqtt(onConnectionLost, onMessageArrived, TOPIC: string[], MQTT_CONFIG: {
       host: string,
       port: number,
       clientId: string,
+      path?: string,
     }) {
     return this._load('paho_mqtt').then(data => {
       // set callback handlers
-      this.client = new Paho.Client(MQTT_CONFIG.host, Number(MQTT_CONFIG.port), MQTT_CONFIG.clientId);
+      this.client = new Paho.Client(MQTT_CONFIG.host, Number(MQTT_CONFIG.port), MQTT_CONFIG.path || "/mqtt", MQTT_CONFIG.clientId);
       this.client.onConnectionLost = onConnectionLost.bind(this);
       this.client.onMessageArrived = onMessageArrived.bind(this);
       // client connect and subscribe
       // console.log(this.client);
-      return this.client.connect({onSuccess: this._onConnect.bind(this, topic)});
+      return this.client.connect({onSuccess: this._onConnect.bind(this, TOPIC)});
     }).catch(error => {
       console.log(error);
     });
   };
 
-  public publishMessage(topic: string, playload: string, qos: number, retained: boolean) {
+  public publishMessage(topic: string, playload: string, qos?: number, retained?: boolean) {
       // console.log('msg, topic', topic, playload);
       var message = new Paho.Message(playload);
       message.topic = topic;
@@ -93,7 +94,7 @@ export class MQTTService {
     };
 
 
-    public sendMessage(topic: string, playload: string, qos: number, retained: boolean) {
+    public sendMessage(topic: string, playload: string, qos?: number, retained?: boolean) {
       // console.log('msg, topic', topic, playload);
       var message = new Paho.Message(playload);
       message.topic = topic;
