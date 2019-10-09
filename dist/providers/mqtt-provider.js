@@ -1,5 +1,14 @@
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 import { Injectable } from "@angular/core";
-var MQTTService = (function () {
+var MQTTService = /** @class */ (function () {
     function MQTTService() {
         var _this = this;
         this.scripts = {};
@@ -16,10 +25,7 @@ var MQTTService = (function () {
         });
     }
     // load script
-    // load script
-    MQTTService.prototype._load = 
-    // load script
-    function () {
+    MQTTService.prototype._load = function () {
         var _this = this;
         var scripts = [];
         for (var _i = 0; _i < arguments.length; _i++) {
@@ -41,8 +47,7 @@ var MQTTService = (function () {
                 var script_1 = document.createElement('script');
                 script_1.type = 'text/javascript';
                 script_1.src = _this.scripts[name].src;
-                if (script_1.readyState) {
-                    //IE
+                if (script_1.readyState) { //IE
                     script_1.onreadystatechange = function () {
                         if (script_1.readyState === "loaded" || script_1.readyState === "complete") {
                             script_1.onreadystatechange = null;
@@ -51,8 +56,7 @@ var MQTTService = (function () {
                         }
                     };
                 }
-                else {
-                    //Others
+                else { //Others
                     script_1.onload = function () {
                         _this.scripts[name].loaded = true;
                         resolve({ name: name, loaded: true, status: 'Loaded', script: script_1, src: script_1.src });
@@ -65,32 +69,41 @@ var MQTTService = (function () {
     };
     // mqtt
     // Load the paho-mqtt mqtt and create a client instance
-    // mqtt
-    // Load the paho-mqtt mqtt and create a client instance
-    MQTTService.prototype.loadingMqtt = 
-    // mqtt
-    // Load the paho-mqtt mqtt and create a client instance
-    function (onConnectionLost, onMessageArrived, topic, MQTT_CONFIG) {
+    MQTTService.prototype.loadingMqtt = function (onConnectionLost, onMessageArrived, TOPIC, MQTT_CONFIG) {
         var _this = this;
         return this._load('paho_mqtt').then(function (data) {
             // set callback handlers
-            // set callback handlers
-            _this.client = new Paho.Client(MQTT_CONFIG.domain, Number(MQTT_CONFIG.port), MQTT_CONFIG.clientId);
+            _this.client = new Paho.Client(MQTT_CONFIG.host, Number(MQTT_CONFIG.port), MQTT_CONFIG.path || "/mqtt", MQTT_CONFIG.clientId);
             _this.client.onConnectionLost = onConnectionLost.bind(_this);
             _this.client.onMessageArrived = onMessageArrived.bind(_this);
             // client connect and subscribe
             // console.log(this.client);
-            return _this.client.connect({ onSuccess: _this._onConnect.bind(_this, topic) });
+            return _this.client.connect({ onSuccess: _this._onConnect.bind(_this, TOPIC) });
         }).catch(function (error) {
             console.log(error);
         });
     };
     ;
+    MQTTService.prototype.publishMessage = function (topic, playload, qos, retained) {
+        // console.log('msg, topic', topic, playload);
+        var message = new Paho.Message(playload);
+        message.topic = topic;
+        qos ? message.qos = qos : undefined;
+        qos ? message.retained = retained : undefined;
+        this.client.publish(message);
+    };
+    ;
+    MQTTService.prototype.sendMessage = function (topic, playload, qos, retained) {
+        // console.log('msg, topic', topic, playload);
+        var message = new Paho.Message(playload);
+        message.topic = topic;
+        qos ? message.qos = qos : undefined;
+        qos ? message.retained = retained : undefined;
+        this.client.send(message);
+    };
+    ;
     // called when the client connects
-    // called when the client connects
-    MQTTService.prototype._onConnect = 
-    // called when the client connects
-    function (topic) {
+    MQTTService.prototype._onConnect = function (topic) {
         var _this = this;
         // Once a connection has been made, make a subscription and send a message.
         // console.log("onConnect");
@@ -100,11 +113,10 @@ var MQTTService = (function () {
         });
         return this.client;
     };
-    MQTTService.decorators = [
-        { type: Injectable },
-    ];
-    /** @nocollapse */
-    MQTTService.ctorParameters = function () { return []; };
+    MQTTService = __decorate([
+        Injectable(),
+        __metadata("design:paramtypes", [])
+    ], MQTTService);
     return MQTTService;
 }());
 export { MQTTService };

@@ -1,5 +1,7 @@
 # ionic-mqtt
 
+### **UPDATES: This package is being migrated to ionic v4.
+
 ## Introduction
 This is a simple ionic wrapper of paho-mqtt. For more detail of paho-mqtt, please refer to this [paho-mqtt github page](https://github.com/eclipse/paho.mqtt.javascript#readme).
 
@@ -37,7 +39,7 @@ export class AppModule {}
 
 ```  
 
-// inside your component page
+// inside your component
 
 import { MQTTService } from 'ionic-mqtt';
 
@@ -62,8 +64,7 @@ export class HomePage {
 
   private TOPIC: string[] = [];
 
-  constructor(public navCtrl: NavController, private mqttService: MQTTService) {
-    this._mqttClient = this.mqttService.client;
+  constructor(private mqttService: MQTTService) {
   }
 
   ngOnInit() {
@@ -73,16 +74,51 @@ export class HomePage {
   private _onConnectionLost(responseObject) {
     // connection listener
     // ...do actions when connection lost
+    console.log('_onConnectionLost', responseObject);
   }
 
   private _onMessageArrived(message) {
     // message listener
     // ...do actions with arriving message
+    console.log('message', message);
+  }
+
+  ...
+
+
+  // public function for sending and publishing mqtt messages
+
+  public sendMessage() {
+    console.log('sendMessage')
+    this._mqttService.sendMessage(TOPIC, MESSAGE);
+  }
+
+  public publishMessage() {
+    console.log('publishMessage')
+    this._mqttService.publishMessage(TOPIC, MESSAGE);
   }
 
   ...
 
 }
+
+```
+
+
+
+```
+// inside your component html
+
+<ion-content padding>
+
+  ...
+
+  <button (click)="sendMessage()">Send Message</button>
+  <button (click)="publishMessage()">Publish Message</button>
+
+  ...
+
+</ion-content>
 
 ```
 
@@ -162,13 +198,11 @@ The above example uses the [Mosquitto broder/server](https://test.mosquitto.org/
 ### Pre-requisites
 Before you can begin using these mqtt service with your project, you need to make sure your project meets a few of these requirements:
 
-"typescript" >= 2.6.2
+"typescript" >= 3.4.3
 
-"ionic-angular" >= 3.9
+"@ionic-angular" >= 4.7.1
 
-"@ionic/app-scripts" >= 3.2.2
-
-"@angular/core" >= 5.2.11
+"@angular/core" >= 8.1.2
 
 
 ## Contributing

@@ -1,7 +1,7 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 // import { MqttComponent } from './components/mqtt-component';
 import { MQTTService } from './providers/mqtt-provider';
-import { IonicModule } from 'ionic-angular';
+import { IonicModule } from '@ionic/angular';
 
 @NgModule({
     imports: [

@@ -1,10 +1,10 @@
 {
   "compilerOptions": {
-    "allowJs": true,
     "module": "es2015",
     "target": "es5",
     "moduleResolution": "node",
     "sourceMap": true,
+    "declaration": true,
     "inlineSources": true,
     "noImplicitAny": false,
     "experimentalDecorators": true,

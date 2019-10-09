@@ -70,7 +70,7 @@ export class MQTTService {
       port: number,
       clientId: string,
       path?: string,
-    }) {
+    }): any {
     return this._load('paho_mqtt').then(data => {
       // set callback handlers
       this.client = new Paho.Client(MQTT_CONFIG.host, Number(MQTT_CONFIG.port), MQTT_CONFIG.path || "/mqtt", MQTT_CONFIG.clientId);
@@ -84,7 +84,7 @@ export class MQTTService {
     });
   };
 
-  public publishMessage(topic: string, playload: string, qos?: number, retained?: boolean) {
+  public publishMessage(topic: string, playload: string, qos?: number, retained?: boolean): void {
       // console.log('msg, topic', topic, playload);
       var message = new Paho.Message(playload);
       message.topic = topic;
@@ -94,14 +94,14 @@ export class MQTTService {
     };
 
 
-    public sendMessage(topic: string, playload: string, qos?: number, retained?: boolean) {
-      // console.log('msg, topic', topic, playload);
-      var message = new Paho.Message(playload);
-      message.topic = topic;
-      qos ? message.qos = qos : undefined;
-      qos ? message.retained = retained : undefined;
-      this.client.send(message);
-    };
+  public sendMessage(topic: string, playload: string, qos?: number, retained?: boolean): void {
+    // console.log('msg, topic', topic, playload);
+    var message = new Paho.Message(playload);
+    message.topic = topic;
+    qos ? message.qos = qos : undefined;
+    qos ? message.retained = retained : undefined;
+    this.client.send(message);
+  };
 
   // called when the client connects
   private _onConnect(topic: string[]) {
